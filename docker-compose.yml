@@ -1,0 +1,77 @@
+services:
+    laravel.test:
+        build:
+            context: './docker/app'
+            dockerfile: Dockerfile
+            args:
+                WWWGROUP: '${WWWGROUP}'
+        image: 'sail-8.3/app'
+        container_name: app-admin-panel
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        ports:
+            - '${APP_PORT:-80}:80'
+            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
+        environment:
+            WWWUSER: '${WWWUSER}'
+            LARAVEL_SAIL: 1
+            IGNITION_LOCAL_SITES_PATH: '${PWD}'
+            DB_CONNECTION: ${DB_CONNECTION}
+            DB_HOST: ${DB_HOST}
+            DB_PORT: ${DB_PORT}
+            DB_USERNAME: ${DB_USERNAME}
+            DB_PASSWORD: ${DB_PASSWORD}
+            REDIS_HOST: ${REDIS_HOST}
+        volumes:
+            - '.:/var/www/html'
+            - './docker/app/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf'
+        networks:
+            - admin-panel
+        depends_on:
+            - pgsql
+            - redis
+            - mailpit
+
+    pgsql:
+        image: 'postgres:17'
+        container_name: pgsql-admin-panel
+        ports:
+            - '${FORWARD_DB_PORT:-5432}:5432'
+        restart: unless-stopped
+        environment:
+            POSTGRES_DB: '${DB_DATABASE}'
+            POSTGRES_USER: '${DB_USERNAME}'
+            POSTGRES_PASSWORD: '${DB_PASSWORD}'
+        volumes:
+            - 'pgsql_data:/var/lib/postgresql/data'
+        networks:
+            - admin-panel
+
+    redis:
+        image: 'redis:alpine'
+        container_name: redis-admin-panel
+        restart: unless-stopped
+        ports:
+            - '${FORWARD_REDIS_PORT:-6379}:6379'
+        volumes:
+            - 'redis_data:/data'
+        networks:
+            - admin-panel
+
+    mailpit:
+        image: 'axllent/mailpit:latest'
+        container_name: mailpit-admin-panel
+        restart: unless-stopped
+        ports:
+            - '${FORWARD_MAILPIT_PORT:-1025}:1025'
+            - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
+        networks:
+            - admin-panel
+
+networks:
+    admin-panel:
+        driver: bridge
+
+volumes:
+    pgsql_data:
+    redis_data:
