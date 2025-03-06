@@ -1,0 +1,262 @@
+/* CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Убираем стандартные стили у списков */
+ul, ol {
+    list-style: none;
+}
+
+/* Убираем подчеркивание у ссылок */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Базовые переменные */
+:root {
+    --bs-blue: #0d6efd;
+    --bs-indigo: #6610f2;
+    --bs-purple: #6f42c1;
+    --bs-pink: #d63384;
+    --bs-red: #dc3545;
+    --bs-orange: #fd7e14;
+    --bs-yellow: #ffc107;
+    --bs-green: #198754;
+    --bs-teal: #20c997;
+    --bs-cyan: #0dcaf0;
+    --bs-black: #000;
+    --bs-white: #fff;
+    --bs-gray: #6c757d;
+    --bs-gray-dark: #343a40;
+    --bs-gray-100: #f8f9fa;
+    --bs-gray-200: #e9ecef;
+    --bs-gray-300: #dee2e6;
+    --bs-gray-400: #ced4da;
+    --bs-gray-500: #adb5bd;
+    --bs-gray-600: #6c757d;
+    --bs-gray-700: #495057;
+    --bs-gray-800: #343a40;
+    --bs-gray-900: #212529;
+    --bs-primary: #f9322c;
+    --bs-secondary: #6c757d;
+    --bs-success: #198754;
+    --bg-green: #06b66b;
+    --bs-info: #0dcaf0;
+    --bs-warning: #ffc107;
+    --bs-danger: #dc3545;
+    --bs-light: #f8f9fa;
+    --bs-dark: #212529;
+    --font-main: 'Figtree', Arial, sans-serif;
+}
+
+/* Базовые стили */
+body {
+    font-family: var(--font-main);
+    background-color: var(--bs-gray-100);
+    color: var(--bs-black);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Sidebar */
+.admin-panel-container .sidebar-container {
+    width: 220px;
+    color: var(--bs-white);
+    background-color: var(--bs-dark);
+    height: 100vh;
+    position: fixed;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    top:0;
+}
+
+.admin-panel-container .sidebar-container .logo-container {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.admin-panel-container .sidebar-container .logo-container img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    margin-left: 30px;
+}
+
+.admin-panel-container .sidebar-container .navigation-container .menu-item {
+    margin: 5px 10px;
+}
+
+.admin-panel-container .sidebar-container .navigation-container .menu-item .menu-link {
+    padding: 5px 20px;
+    display: flex;
+    align-items: center;
+}
+
+.admin-panel-container .sidebar-container .navigation-container .menu-item .menu-link {
+    padding: 5px 20px;
+    display: flex;
+    align-items: center;
+}
+
+.admin-panel-container .sidebar-container .navigation-container .menu-item.active {
+    background-color: var(--bg-green);
+    border-radius: 8px;
+}
+
+.admin-panel-container .sidebar-container .navigation-container .menu-item:hover {
+    background-color: var(--bg-green);
+    border-radius: 8px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.admin-panel-container .sidebar-container .navigation-container .menu-item .menu-link i {
+    font-size: 20px;
+    margin-right: 8px;
+}
+
+.admin-panel-container .sidebar-container .navigation-container .menu-item .menu-link p {
+    font-size: 15px;
+}
+
+.admin-panel-container .sidebar-container .logout-container {
+    display: flex;
+    margin: 10px;
+}
+
+.admin-panel-container .sidebar-container .logout-container button {
+    width: 200px;
+    padding: 7px 0;
+    border-radius: 8px;
+    color: var(--bs-white);
+    border: none;
+    background-color: var(--bs-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.admin-panel-container .sidebar-container .logout-container button:hover {
+    background-color: var(--bs-red);
+    transition: background-color 0.3s ease-in-out;
+}
+
+.admin-panel-container .sidebar-container .logout-container button i {
+    font-size: 20px;
+    margin-right: 8px;
+}
+
+.admin-panel-container .sidebar-container .logout-container button p {
+    font-size: 15px;
+}
+
+@media (max-width: 768px) {
+    .admin-panel-container .sidebar-container {
+        width: 50px;
+    }
+
+    .admin-panel-container .sidebar-container .logo-container {
+        justify-content: center;
+    }
+
+    .admin-panel-container .sidebar-container .logo-container img {
+        margin: 0;
+    }
+
+    .admin-panel-container .sidebar-container .logo-container h3 {
+        display: none;
+    }
+
+    .admin-panel-container .sidebar-container .navigation-container .menu-item {
+        margin: 5px;
+    }
+
+    .admin-panel-container .sidebar-container .navigation-container .menu-item .menu-link {
+        padding: 10px 10px;
+        justify-content: center;
+    }
+
+    .admin-panel-container .sidebar-container .navigation-container .menu-item .menu-link i {
+        margin: 0;
+        font-size: 22px;
+    }
+
+    .admin-panel-container .sidebar-container .navigation-container .menu-item .menu-link p {
+        display: none;
+    }
+
+    .admin-panel-container .sidebar-container .navigation-container .menu-item .menu-link p {
+        display: none;
+    }
+
+    .admin-panel-container .sidebar-container .logout-container {
+        display: flex;
+        margin: 10px 5px;
+    }
+
+    .admin-panel-container .sidebar-container .logout-container button {
+        width: 40px;
+        padding: 10px 0;
+    }
+
+    .admin-panel-container .sidebar-container .logout-container button i {
+        font-size: 22px;
+        margin: 0;
+    }
+
+    .admin-panel-container .sidebar-container .logout-container button p {
+        display: none;
+    }
+}
+/* End Sidebar */
+
+/* Header Container */
+.admin-panel-container .header-container {
+    position: fixed;
+    top: 0;
+    left: 220px;
+    width: calc(100% - 220px);
+    height: 50px;
+    background-color: var(--bs-dark);
+    color: var(--bs-white);
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+    padding: 10px;
+}
+
+@media (max-width: 768px) {
+    .admin-panel-container .header-container {
+        width: calc(100% - 50px);
+        left: 50px;
+    }
+}
+/* End Header Container */
+
+/* Main Container */
+.admin-panel-container .main-container {
+    flex: 1;
+    width: calc(100% - 220px);
+    margin-left: 220px;
+    margin-top: 50px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+@media (max-width: 768px) {
+    .admin-panel-container .main-container {
+        width: calc(100% - 50px);
+        margin-left: 50px;
+    }
+}
+/* End Main Container */
+

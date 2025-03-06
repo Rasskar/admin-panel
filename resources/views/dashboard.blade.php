@@ -1,17 +1,17 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+@extends('admin-panel.layouts.admin-panel')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
-        </div>
-    </div>
-</x-app-layout>
+@push('styles')
+    @vite(['resources/css/admin-panel/dashboard.css'])
+@endpush
+
+@push('scripts')
+    @vite(['resources/js/admin-panel/dashboard.js'])
+@endpush
+
+@section('header.title', 'Dashboard')
+
+@section('content')
+    Hello world
+@endsection
+
+
