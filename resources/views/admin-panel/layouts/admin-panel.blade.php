@@ -28,7 +28,7 @@
         </main>
     </div>
 
-    @vite(['resources/js/admin-panel/scripts.js'])
+    @vite(['resources/js/admin-panel/script.js'])
 
     @stack('scripts')
 </body>

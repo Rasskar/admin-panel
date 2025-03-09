@@ -1,0 +1,76 @@
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.profile-container .update-profile-info-container {
+    margin: 30px 0;
+    width: 80%;
+    background-color: var(--bs-white);
+    padding: 0 40px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    border-radius: 10px;
+}
+
+.profile-container .update-profile-info-container h4 {
+    padding: 20px 0 15px 0;
+}
+
+#updateProfileInfoForm div {
+    padding: 5px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/*#updateProfileInfoForm div input {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 2px solid var(--bs-gray-600);
+}*/
+
+#updateProfileInfoForm button {
+    margin: 15px 0 20px 0;
+}
+
+/* Базовые стили для input и select */
+input,
+select {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+/* Подсветка при фокусе */
+input:focus,
+select:focus {
+    border-color: var(--bs-gray-500);
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem var(--bs-gray-400); /* как у Bootstrap */
+}
+
+/* Ошибка: красная рамка + красная подсветка */
+input.error,
+select.error {
+    border-color: #dc3545;
+    padding-right: calc(1.5em + 0.75rem);
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+input.error:focus,
+select.error:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+}
+
