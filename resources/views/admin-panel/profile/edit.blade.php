@@ -12,65 +12,78 @@
 
 @section('content')
     <div class="profile-container">
-        <div class="update-profile-info-container">
-            <h4>Update Info</h4>
-            <form id="updateProfileInfoForm" method="post" action="{{--{{ route('profile.update') }}--}}">
+        <section class="update-profile-info-container">
+            <h3>{{ __("Update Info") }}</h3>
+            <form id="updateProfileInfoForm" method="post" action="{{ route('profile.updateInfo') }}" novalidate>
                 @csrf
 
                 <div>
                     <label for="userRole" class="form-label">{{ __("Role") }}</label>
                     <select id="userRole" name="role">
-                        <option value="1">Administrator</option>
-                        <option value="2">Developer</option>
-                        <option value="3">Manager</option>
+                        @foreach ($roles as $role)
+                            <option value="{{ $role->id }}" {{ $user->role_id == $role->id ? 'selected' : '' }}>
+                                {{$role->name}}
+                            </option>
+                        @endforeach
                     </select>
+                    <div class="invalid-feedback"></div>
                 </div>
 
                 <div>
                     <label for="userName">{{ __("Name") }}</label>
-                    <input id="userName" class="error" type="text" name="name" value="{{ $user->name }}" required />
+                    <input id="userName" type="text" name="name" value="{{ $user->name }}" />
+                    <div class="invalid-feedback"></div>
                 </div>
 
                 <div>
                     <label for="userEmail">{{ __("Email") }}</label>
-                    <input id="userEmail" type="email" name="email" value="{{ $user->email }}" required />
+                    <input id="userEmail" type="email" name="email" value="{{ $user->email }}" />
+                    <div class="invalid-feedback"></div>
                 </div>
 
                 <div>
                     <label for="firstName">{{ __("First name") }}</label>
-                    <input class="firstName" type="text" name="firstName" value="" />
+                    <input class="firstName" type="text" name="firstName" value="{{ $user->first_name }}" />
+                    <div class="invalid-feedback"></div>
                 </div>
 
                 <div>
                     <label for="lastName">{{ __("Last name") }}</label>
-                    <input class="lastName" type="text" name="lastName" value="" />
+                    <input class="lastName" type="text" name="lastName" value="{{ $user->last_name }}" />
+                    <div class="invalid-feedback"></div>
                 </div>
 
-                <button type="submit" class="save-button">Save</button>
+                <button type="submit" class="save-button">
+                    <span class="btn-loader"></span>
+                    <span class="btn-text">{{ __("Save") }}</span>
+                </button>
             </form>
-        </div>
+        </section>
 
         <section class="update-profile-password-container">
-            <h4>Update Password</h4>
-            <form id="updateProfilePasswordForm" method="post" action="{{--{{ route('password.update') }}--}}">
+            <h3>{{ __("Update Password") }}</h3>
+            <form id="updateProfilePasswordForm" method="post" action="{{ route('profile.updatePassword') }}" novalidate>
                 @csrf
 
                 <div>
                     <label for="currentPassword">{{ __('Current Password') }}</label>
-                    <input id="currentPassword" name="currentPassword" type="password" />
+                    <input id="currentPassword" name="currentPassword" type="password" required />
                 </div>
 
                 <div>
                     <label for="newPassword">{{ __('New Password') }}</label>
-                    <input id="newPassword" name="newPassword" type="password" />
+                    <input id="newPassword" name="newPassword" type="password" required />
                 </div>
 
                 <div>
                     <label for="passwordConfirmation">{{ __('Confirm Password') }}</label>
-                    <input id="passwordConfirmation" name="passwordConfirmation" type="password" />
+                    <input id="passwordConfirmation" name="passwordConfirmation" type="password" required />
                 </div>
 
-                <button type="submit" class="save-button">Save</button>
+                <button type="submit" class="save-button">
+                    <span class="btn-loader"></span>
+                    <span class="btn-text">{{ __("Save") }}</span>
+                </button>
             </form>
         </section>
     </div>
