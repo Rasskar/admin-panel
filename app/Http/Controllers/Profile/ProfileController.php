@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Profile;
 
+use App\DTO\Profiles\UpdateProfileDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Role;
@@ -14,7 +15,8 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * @param Request $request
+     * @return View
      */
     public function edit(Request $request): View
     {
@@ -24,20 +26,18 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
-     * Update the user's profile information.
-     */
-    public function updateInfo(ProfileUpdateRequest $request): RedirectResponse
+    public function updateInfo(ProfileUpdateRequest $request)
     {
-        /*$request->user()->fill($request->validated());
+        try {
+            echo "<pre>";
+            print_r($request);
+            echo "</pre>";
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+            return response()->json([], 200);
+            //$dto = new UpdateProfileDto(...$request);
+        } catch (\Throwable $exception) {
+            return response()->json(['message' => $exception->getMessage()], 500);
         }
-
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');*/
     }
 
     public function updatePassword()

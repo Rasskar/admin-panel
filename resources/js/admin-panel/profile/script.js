@@ -15,9 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isValidUpdateProfileInfoForm(data)) {
             try {
                 const response = await fetch(updateProfileInfoForm.action, {
-                    method: updateProfileInfoForm.method,
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
                     },
                     body: JSON.stringify(data),
                 });
@@ -63,8 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
             isValid = false;
         }
 
-        if (!data.role) {
-            setFieldError("role", "Please select a user role.");
+        if (!data.roleId) {
+            setFieldError("roleId", "Please select a user role.");
             isValid = false;
         }
 

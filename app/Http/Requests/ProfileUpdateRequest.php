@@ -2,29 +2,52 @@
 
 namespace App\Http\Requests;
 
-use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class ProfileUpdateRequest extends FormRequest
 {
+    public function authorize(): bool
+    {
+        return true;
+    }
+
     /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array[]
      */
     public function rules(): array
     {
         return [
+            'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($this->user()->id)],
             'name' => ['required', 'string', 'max:255'],
-            'email' => [
-                'required',
-                'string',
-                'lowercase',
-                'email',
-                'max:255',
-                Rule::unique(User::class)->ignore($this->user()->id),
-            ],
+            'roleId' => ['required', 'integer', 'exists:roles,id'],
+            'firstName' => ['nullable', 'string', 'max:255'],
+            'lastName' => ['nullable', 'string', 'max:255'],
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'Email is required.',
+            'email.email' => 'The email must be a valid email address.',
+            'email.unique' => 'This email is already taken by another user.',
+
+            'name.required' => 'Name is required.',
+            'name.string' => 'Name must be a string.',
+
+            'roleId.required' => 'User role is required.',
+            'roleId.integer' => 'Role must be an integer.',
+            'roleId.exists' => 'The selected role is invalid.',
+
+            'firstName.string' => 'First name must be a string.',
+            'firstName.max' => 'First name cannot be longer than 255 characters.',
+
+            'lastName.string' => 'Last name must be a string.',
+            'lastName.max' => 'Last name cannot be longer than 255 characters.',
         ];
     }
 }

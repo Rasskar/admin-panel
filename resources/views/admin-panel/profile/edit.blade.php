@@ -14,12 +14,12 @@
     <div class="profile-container">
         <section class="update-profile-info-container">
             <h3>{{ __("Update Info") }}</h3>
-            <form id="updateProfileInfoForm" method="post" action="{{ route('profile.updateInfo') }}" novalidate>
+            <form id="updateProfileInfoForm" method="POST" action="{{ route('profile.updateInfo') }}" novalidate>
                 @csrf
 
                 <div>
                     <label for="userRole" class="form-label">{{ __("Role") }}</label>
-                    <select id="userRole" name="role">
+                    <select id="userRole" name="roleId">
                         @foreach ($roles as $role)
                             <option value="{{ $role->id }}" {{ $user->role_id == $role->id ? 'selected' : '' }}>
                                 {{$role->name}}
