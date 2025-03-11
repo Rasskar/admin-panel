@@ -10,8 +10,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
         loading(button);
 
-        if (isValidUpdateProfileInfoForm(data)) {
+        //console.log();
 
+        if (isValidUpdateProfileInfoForm(data)) {
+            try {
+                const response = await fetch(updateProfileInfoForm.action, {
+                    method: updateProfileInfoForm.method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                console.log(response);
+
+                const result = response.json();
+
+                console.log(result);
+
+                //if (!response.ok) {
+                //    throw new Error(result.message || 'Something went wrong');
+                //}
+
+                //alert('Lead sent successfully ✅');
+                //form.reset();
+            } catch (error) {
+                //errorContainer.textContent = error.message;
+            } finally {
+                loading(button);
+            }
         } else {
             loading(button);
         }
