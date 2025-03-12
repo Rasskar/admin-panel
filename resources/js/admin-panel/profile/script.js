@@ -4,47 +4,52 @@ document.addEventListener('DOMContentLoaded', () => {
     updateProfileInfoForm.addEventListener('submit', async(e) => {
         e.preventDefault();
 
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         const button = updateProfileInfoForm.querySelector('.save-button');
         const formData = new FormData(updateProfileInfoForm);
         const data = Object.fromEntries(formData.entries());
+
+        console.log(csrfToken);
 
         loading(button);
 
         //console.log();
 
-        if (isValidUpdateProfileInfoForm(data)) {
+        //if (isValidUpdateProfileInfoForm(data)) {
             try {
                 const response = await fetch(updateProfileInfoForm.action, {
                     method: 'POST',
                     headers: {
+                        'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
+                        'X-CSRF-TOKEN': csrfToken,
                     },
                     body: JSON.stringify(data),
                 });
 
-                console.log(response);
+                const result = await response.json();
 
-                const result = response.json();
+                console.log(response);
 
                 console.log(result);
 
-                //if (!response.ok) {
-                //    throw new Error(result.message || 'Something went wrong');
-                //}
+                if (!response.ok) {
+                    throw new Error(result);
+                }
 
                 //alert('Lead sent successfully ✅');
                 //form.reset();
             } catch (error) {
+                console.log(error);
                 //errorContainer.textContent = error.message;
             } finally {
                 loading(button);
             }
-        } else {
+        /*} else {
             loading(button);
-        }
+        }*/
 
-        console.log(data);
+        //console.log(data);
     });
 
     function isValidUpdateProfileInfoForm(data) {

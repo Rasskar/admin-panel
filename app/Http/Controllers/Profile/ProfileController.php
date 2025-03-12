@@ -6,9 +6,11 @@ use App\DTO\Profiles\UpdateProfileDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
@@ -20,6 +22,8 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        //dd($request->user());
+
         return view('admin-panel.profile.edit', [
             'user' => $request->user(),
             'roles' => Role::all()
@@ -29,12 +33,11 @@ class ProfileController extends Controller
     public function updateInfo(ProfileUpdateRequest $request)
     {
         try {
-            echo "<pre>";
-            print_r($request);
-            echo "</pre>";
+            $dto = new UpdateProfileDto(...$request->only('name', 'email', 'roleId', 'firstName', 'lastName'));
 
-            return response()->json([], 200);
-            //$dto = new UpdateProfileDto(...$request);
+            $request->user()->update($dto->toArray());
+
+            return response()->json(['status' => 'ok', 'message' => 'Profile updated successfully.']);
         } catch (\Throwable $exception) {
             return response()->json(['message' => $exception->getMessage()], 500);
         }

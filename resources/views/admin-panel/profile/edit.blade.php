@@ -15,7 +15,7 @@
         <section class="update-profile-info-container">
             <h3>{{ __("Update Info") }}</h3>
             <form id="updateProfileInfoForm" method="POST" action="{{ route('profile.updateInfo') }}" novalidate>
-                @csrf
+                {{--@csrf--}}
 
                 <div>
                     <label for="userRole" class="form-label">{{ __("Role") }}</label>
@@ -63,7 +63,7 @@
         <section class="update-profile-password-container">
             <h3>{{ __("Update Password") }}</h3>
             <form id="updateProfilePasswordForm" method="post" action="{{ route('profile.updatePassword') }}" novalidate>
-                @csrf
+                {{--@csrf--}}
 
                 <div>
                     <label for="currentPassword">{{ __('Current Password') }}</label>

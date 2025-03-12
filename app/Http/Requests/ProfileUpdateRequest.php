@@ -7,11 +7,6 @@ use Illuminate\Validation\Rule;
 
 class ProfileUpdateRequest extends FormRequest
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     /**
      * @return array[]
      */
@@ -19,7 +14,7 @@ class ProfileUpdateRequest extends FormRequest
     {
         return [
             'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($this->user()->id)],
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'min:3', 'max:255'],
             'roleId' => ['required', 'integer', 'exists:roles,id'],
             'firstName' => ['nullable', 'string', 'max:255'],
             'lastName' => ['nullable', 'string', 'max:255'],
