@@ -57,6 +57,7 @@
                     <span class="btn-loader"></span>
                     <span class="btn-text">{{ __("Save") }}</span>
                 </button>
+                <span class="result-submit success">Test error text</span>
             </form>
         </section>
 
@@ -84,6 +85,7 @@
                     <span class="btn-loader"></span>
                     <span class="btn-text">{{ __("Save") }}</span>
                 </button>
+                <span class="result-submit"></span>
             </form>
         </section>
     </div>

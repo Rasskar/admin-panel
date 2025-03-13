@@ -76,6 +76,19 @@
 }
 /* End Save Button Style */
 
+.result-submit {
+    font-size: 14px;
+    padding-left: 10px;
+}
+
+.result-submit.success {
+    color: var(--bs-green);
+}
+
+.result-submit.error {
+    color: #ea868f;
+}
+
 @media (max-width: 425px) {
     .profile-container .update-profile-password-container,
     .profile-container .update-profile-info-container {

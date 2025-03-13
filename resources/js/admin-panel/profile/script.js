@@ -5,54 +5,54 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
 
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const resultSubmit = updateProfileInfoForm.querySelector('.result-submit');
         const button = updateProfileInfoForm.querySelector('.save-button');
         const formData = new FormData(updateProfileInfoForm);
         const data = Object.fromEntries(formData.entries());
 
-        console.log(csrfToken);
-
         loading(button);
 
-        //console.log();
+        if (isValidUpdateProfileInfoForm(data)) {
+            const response = await fetch(updateProfileInfoForm.action, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+                body: JSON.stringify(data),
+            });
 
-        //if (isValidUpdateProfileInfoForm(data)) {
-            try {
-                const response = await fetch(updateProfileInfoForm.action, {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken,
-                    },
-                    body: JSON.stringify(data),
+            const result = await response.json();
+
+            if (!response.ok && response.status === 422) {
+                Object.entries(result.errors).forEach(([key, value]) => {
+                    value.forEach((value) => {
+                        setFieldError(key, value);
+                    });
                 });
-
-                const result = await response.json();
-
-                console.log(response);
-
-                console.log(result);
+            } else {
+                resultSubmit.classList.remove('success', 'error');
+                resultSubmit.textContent = result.message;
 
                 if (!response.ok) {
-                    throw new Error(result);
+                    resultSubmit.classList.add('error');
+                } else {
+                    resultSubmit.classList.add('success');
+
+                    setTimeout(() => {
+                        resultSubmit.textContent = '';
+                        resultSubmit.classList.remove('success');
+                    }, 10000);
                 }
-
-                //alert('Lead sent successfully ✅');
-                //form.reset();
-            } catch (error) {
-                console.log(error);
-                //errorContainer.textContent = error.message;
-            } finally {
-                loading(button);
             }
-        /*} else {
-            loading(button);
-        }*/
+        }
 
-        //console.log(data);
+        loading(button);
     });
 
     function isValidUpdateProfileInfoForm(data) {
+        updateProfileInfoForm.querySelector('.result-submit').textContent = '';
         updateProfileInfoForm.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
         updateProfileInfoForm.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
 
