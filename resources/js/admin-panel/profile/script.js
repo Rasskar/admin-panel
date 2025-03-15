@@ -1,10 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     const updateProfileInfoForm = document.getElementById('updateProfileInfoForm');
+    const updateProfilePasswordForm = document.getElementById('updateProfilePasswordForm');
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+    // Обновление информации о пользователе
     updateProfileInfoForm.addEventListener('submit', async(e) => {
         e.preventDefault();
 
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         const resultSubmit = updateProfileInfoForm.querySelector('.result-submit');
         const button = updateProfileInfoForm.querySelector('.save-button');
         const formData = new FormData(updateProfileInfoForm);
@@ -51,10 +53,60 @@ document.addEventListener('DOMContentLoaded', () => {
         loading(button);
     });
 
+    // Обновление пароля пользователя
+    updateProfilePasswordForm.addEventListener('submit', async(e) => {
+       e.preventDefault();
+
+        const resultSubmit = updateProfilePasswordForm.querySelector('.result-submit');
+        const button = updateProfilePasswordForm.querySelector('.save-button');
+        const formData = new FormData(updateProfilePasswordForm);
+        const data = Object.fromEntries(formData.entries());
+
+        console.log(data);
+
+        isValidUpdateProfilePasswordForm(data);
+    });
+
+    function isValidUpdateProfilePasswordForm(data) {
+        clearErrorForm(updateProfilePasswordForm);
+
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+        let isValid = true;
+
+        if (!data.currentPassword || data.currentPassword.trim() === '') {
+            setFieldError("currentPassword", "Current password is required.");
+            isValid = false;
+        }
+
+        if (!data.newPassword || data.newPassword.trim().length === 0) {
+            setFieldError("newPassword", "New password is required.");
+            isValid = false;
+        }
+
+        if (!data.passwordConfirmation || data.passwordConfirmation.trim().length === 0) {
+            setFieldError("passwordConfirmation", "Please confirm your new password.");
+            isValid = false;
+        }
+
+        if (!passwordRegex.test(newPassword)) {
+            setFieldError("newPassword", "Пароль должен содержать минимум 8 символов, одну цифру, одну заглавную и одну строчную букву.");
+            isValid = false;
+        }
+
+        if (data.newPassword.trim().length > 0 &&
+            data.passwordConfirmation.trim().length > 0 &&
+            data.newPassword !== data.passwordConfirmation) {
+            setFieldError("newPassword", "Новый пароль и подтверждение не совпадают.");
+            setFieldError("confirmPassword", "");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    // Валидируем форму обновления информации пользователя на выходе получаем валидная форма или нет
     function isValidUpdateProfileInfoForm(data) {
-        updateProfileInfoForm.querySelector('.result-submit').textContent = '';
-        updateProfileInfoForm.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
-        updateProfileInfoForm.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
+        clearErrorForm(updateProfilePasswordForm);
 
         const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         let isValid = true;
@@ -77,6 +129,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return isValid;
     }
 
+    // Очистка ошибок в форме
+    function clearErrorForm(form) {
+        form.querySelector('.result-submit').textContent = '';
+        form.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+        form.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
+    }
+
+    // Выводим ошибку в поле
     function setFieldError(fieldName, errorMessage) {
         const input = document.querySelector(`[name="${fieldName}"]`);
         const next = input.nextElementSibling;
@@ -85,6 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
         next.textContent = errorMessage;
     }
 
+    // Запускаем loading кнопки если его небыло и на оборот
     function loading(button) {
         if (!button.classList.contains('loader')) {
             button.classList.add('loader');
