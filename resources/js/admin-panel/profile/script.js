@@ -64,7 +64,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
         console.log(data);
 
-        isValidUpdateProfilePasswordForm(data);
+        loading(button);
+
+        if (isValidUpdateProfilePasswordForm(data)) {
+            const response = await fetch(updateProfilePasswordForm.action, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+
+            if (!response.ok && response.status === 422) {
+                Object.entries(result.errors).forEach(([key, value]) => {
+                    value.forEach((value) => {
+                        setFieldError(key, value);
+                    });
+                });
+            } else {
+                resultSubmit.classList.remove('success', 'error');
+                resultSubmit.textContent = result.message;
+
+                if (!response.ok) {
+                    resultSubmit.classList.add('error');
+                } else {
+                    resultSubmit.classList.add('success');
+
+                    setTimeout(() => {
+                        resultSubmit.textContent = '';
+                        resultSubmit.classList.remove('success');
+                    }, 10000);
+                }
+            }
+        }
+
+        loading(button);
     });
 
     function isValidUpdateProfilePasswordForm(data) {
@@ -88,16 +126,16 @@ document.addEventListener('DOMContentLoaded', () => {
             isValid = false;
         }
 
-        if (!passwordRegex.test(newPassword)) {
-            setFieldError("newPassword", "Пароль должен содержать минимум 8 символов, одну цифру, одну заглавную и одну строчную букву.");
+        if (data.newPassword.trim().length > 0 && !passwordRegex.test(data.newPassword)) {
+            setFieldError("newPassword", "Password must be at least 8 characters long and include a number, an uppercase and a lowercase letter.");
             isValid = false;
         }
 
         if (data.newPassword.trim().length > 0 &&
             data.passwordConfirmation.trim().length > 0 &&
             data.newPassword !== data.passwordConfirmation) {
-            setFieldError("newPassword", "Новый пароль и подтверждение не совпадают.");
-            setFieldError("confirmPassword", "");
+            setFieldError("newPassword", "");
+            setFieldError("passwordConfirmation", "New password and confirmation password do not match.");
             isValid = false;
         }
 

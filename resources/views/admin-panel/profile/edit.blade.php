@@ -15,8 +15,6 @@
         <section class="update-profile-info-container">
             <h3>{{ __("Update Info") }}</h3>
             <form id="updateProfileInfoForm" method="POST" action="{{ route('profile.updateInfo') }}" novalidate>
-                {{--@csrf--}}
-
                 <div>
                     <label for="userRole" class="form-label">{{ __("Role") }}</label>
                     <select id="userRole" name="roleId">
@@ -57,28 +55,29 @@
                     <span class="btn-loader"></span>
                     <span class="btn-text">{{ __("Save") }}</span>
                 </button>
-                <span class="result-submit success">Test error text</span>
+                <span class="result-submit success"></span>
             </form>
         </section>
 
         <section class="update-profile-password-container">
             <h3>{{ __("Update Password") }}</h3>
             <form id="updateProfilePasswordForm" method="post" action="{{ route('profile.updatePassword') }}" novalidate>
-                {{--@csrf--}}
-
                 <div>
                     <label for="currentPassword">{{ __('Current Password') }}</label>
-                    <input id="currentPassword" name="currentPassword" type="password" required />
+                    <input id="currentPassword" name="currentPassword" type="password" />
+                    <div class="invalid-feedback"></div>
                 </div>
 
                 <div>
                     <label for="newPassword">{{ __('New Password') }}</label>
-                    <input id="newPassword" name="newPassword" type="password" required />
+                    <input id="newPassword" name="newPassword" type="password" />
+                    <div class="invalid-feedback"></div>
                 </div>
 
                 <div>
                     <label for="passwordConfirmation">{{ __('Confirm Password') }}</label>
-                    <input id="passwordConfirmation" name="passwordConfirmation" type="password" required />
+                    <input id="passwordConfirmation" name="passwordConfirmation" type="password" />
+                    <div class="invalid-feedback"></div>
                 </div>
 
                 <button type="submit" class="save-button">
