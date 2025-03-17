@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (!data.passwordConfirmation || data.passwordConfirmation.trim().length === 0) {
-            setFieldError("passwordConfirmation", "Please confirm your new password.");
+            setFieldError("passwordConfirmation", "Confirm password is required.");
             isValid = false;
         }
 

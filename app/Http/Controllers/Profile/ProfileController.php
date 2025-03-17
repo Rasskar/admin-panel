@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,15 +23,17 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        //dd($request->user());
-
         return view('admin-panel.profile.edit', [
             'user' => $request->user(),
             'roles' => Role::all()
         ]);
     }
 
-    public function updateInfo(ProfileUpdateRequest $request)
+    /**
+     * @param ProfileUpdateRequest $request
+     * @return JsonResponse
+     */
+    public function updateInfo(ProfileUpdateRequest $request): JsonResponse
     {
         try {
             $dto = new UpdateProfileDto(...$request->only('name', 'email', 'roleId', 'firstName', 'lastName'));
