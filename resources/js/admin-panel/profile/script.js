@@ -62,8 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const formData = new FormData(updateProfilePasswordForm);
         const data = Object.fromEntries(formData.entries());
 
-        console.log(data);
-
         loading(button);
 
         if (isValidUpdateProfilePasswordForm(data)) {
@@ -134,8 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.newPassword.trim().length > 0 &&
             data.passwordConfirmation.trim().length > 0 &&
             data.newPassword !== data.passwordConfirmation) {
-            setFieldError("newPassword", "");
-            setFieldError("passwordConfirmation", "New password and confirmation password do not match.");
+            setFieldError("newPassword", "Password confirmation does not match.");
             isValid = false;
         }
 
@@ -144,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Валидируем форму обновления информации пользователя на выходе получаем валидная форма или нет
     function isValidUpdateProfileInfoForm(data) {
-        clearErrorForm(updateProfilePasswordForm);
+        clearErrorForm(updateProfileInfoForm);
 
         const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         let isValid = true;
