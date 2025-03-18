@@ -92,6 +92,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     resultSubmit.classList.add('success');
 
+                    updateProfilePasswordForm.querySelectorAll('input').forEach(input => {
+                        input.value = '';
+                    });
+
                     setTimeout(() => {
                         resultSubmit.textContent = '';
                         resultSubmit.classList.remove('success');
